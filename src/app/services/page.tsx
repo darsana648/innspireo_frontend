@@ -17,6 +17,7 @@ import { Section, SectionHeading, Capsule } from "@/components/ui/primitives";
 import { buttonClass } from "@/components/ui/button";
 import { SERVICES, COMPANY, PARTNERSHIP, WHY_CHOOSE } from "@/lib/content";
 import { SITE } from "@/lib/constants";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Hospitality Services — Recruitment, Training, Operations",
@@ -67,9 +68,11 @@ export default function ServicesPage() {
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, i) => (
-            <article
+            <Reveal
+              as="article"
               key={service.slug}
-              className="group flex flex-col border border-line bg-surface p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+              delay={Math.min(i, 5) * 70}
+              className="group flex h-full flex-col border border-line bg-surface p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
             >
               <div className="flex items-start justify-between gap-4">
                 <span className="grid size-11 shrink-0 place-items-center bg-brand-900 text-white [&_svg]:size-5">
@@ -99,7 +102,7 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </Reveal>
           ))}
         </div>
       </Section>

@@ -4,6 +4,7 @@ import { BookOpen, ArrowUpRight, ArrowRight } from "lucide-react";
 import { Badge, Card, Section, SectionHeading } from "@/components/ui/primitives";
 import { buttonClass } from "@/components/ui/button";
 import { BLOG_POSTS } from "@/lib/content";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Career Insights & Industry Notes",
@@ -35,8 +36,9 @@ export default function BlogsPage() {
         <SectionHeading eyebrow="Latest" title="Recent articles" />
 
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {BLOG_POSTS.map((post) => (
-            <Card key={post.slug} interactive className="group relative flex flex-col p-6">
+          {BLOG_POSTS.map((post, i) => (
+            <Reveal key={post.slug} delay={i * 70}>
+              <Card interactive className="group relative flex h-full flex-col p-6">
               <span
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-transform duration-500 group-hover:scale-x-100"
@@ -59,7 +61,8 @@ export default function BlogsPage() {
                 Read article
                 <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>
-            </Card>
+              </Card>
+            </Reveal>
           ))}
         </div>
 

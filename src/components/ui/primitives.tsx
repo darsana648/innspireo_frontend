@@ -103,7 +103,7 @@ export function Card({
       className={cn(
         "rounded-none border border-line bg-surface-raised shadow-soft",
         interactive &&
-        "transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift",
+        "transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-lift",
         className,
       )}
       {...props}
@@ -134,7 +134,10 @@ export function Eyebrow({
     >
       <span
         aria-hidden
-        className={cn("size-1.5", inverse ? "bg-brand-200" : "bg-brand-900")}
+        className={cn(
+          "draw-line h-px w-6",
+          inverse ? "bg-brand-200" : "bg-brand-900",
+        )}
       />
       {children}
     </span>

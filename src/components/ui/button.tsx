@@ -18,13 +18,19 @@ const base = [
   "rounded-none transition-all duration-200",
   "disabled:pointer-events-none disabled:opacity-50",
   "active:translate-y-px [&_svg]:shrink-0",
+  // A trailing arrow slides a little on hover. Scoped to svg:last-child so a
+  // leading icon (Save, Upload) stays put, and so buttons without an arrow
+  // are untouched.
+  "[&>svg:last-child]:transition-transform [&>svg:last-child]:duration-300",
+  "hover:[&>svg:last-child]:translate-x-0.5",
 ].join(" ");
 
 const variants: Record<Variant, string> = {
   /** Solid navy — the main conversion action. */
-  primary: "bg-brand-900 text-white shadow-soft hover:bg-brand-800 hover:shadow-card",
+  primary:
+    "btn-sweep bg-brand-900 text-white shadow-soft hover:bg-brand-800 hover:shadow-card",
   /** Same navy weight; kept as a distinct name for nav-bar and utility CTAs. */
-  navy: "bg-ink-900 text-white shadow-soft hover:bg-ink-800 hover:shadow-card",
+  navy: "btn-sweep bg-ink-900 text-white shadow-soft hover:bg-ink-800 hover:shadow-card",
   secondary:
     "bg-brand-50 text-brand-700 hover:bg-brand-100",
   outline:

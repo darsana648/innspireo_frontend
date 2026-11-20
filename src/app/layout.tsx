@@ -117,6 +117,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Scroll-reveal starts hidden and is released by JavaScript. With
+            JavaScript off that never happens, so unhide everything. */}
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
+      </head>
       <body className={`${dmSans.variable} antialiased`}>
         <AuthProvider>
           <Header />

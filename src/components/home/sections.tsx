@@ -23,6 +23,7 @@ import { DESTINATIONS, SITE } from "@/lib/constants";
 import { SERVICES, COMPANY, FAQS } from "@/lib/content";
 import type { Facets } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { CountUp } from "@/components/ui/count-up";
 
 /* -------------------------------------------------------------------------- */
 /* Stats bar — dense factual band straight under the hero                      */
@@ -52,8 +53,8 @@ export function StatsBar({ facets }: { facets: Facets }) {
                 i === stats.length - 1 ? "lg:border-r-0" : "lg:border-r",
               )}
             >
-              <dd className="font-display text-3xl font-bold leading-none text-white sm:text-4xl">
-                {stat.value}
+              <dd className="font-display text-3xl font-bold leading-none tabular-nums text-white sm:text-4xl">
+                <CountUp value={stat.value} duration={1400 + i * 120} />
               </dd>
               <dt className="mt-3.5 text-sm font-semibold text-white">{stat.label}</dt>
               <p className="mt-1 text-xs text-white/65">{stat.note}</p>
@@ -295,7 +296,11 @@ export function FaqPreview() {
           </div>
         </div>
 
-        <Accordion items={items} />
+        {/* self-start, or the accordion stretches to the height of the taller
+            left column and leaves a tall empty box below the last question. */}
+        <div className="self-start">
+          <Accordion items={items} />
+        </div>
       </div>
     </Section>
   );

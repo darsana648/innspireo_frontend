@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { buttonClass } from "@/components/ui/button";
 import { Capsule } from "@/components/ui/primitives";
+import { CountUp } from "@/components/ui/count-up";
 import { DESTINATIONS, jobsUrl } from "@/lib/constants";
 import type { Facets } from "@/lib/api";
 
@@ -28,11 +29,12 @@ export function Hero({ facets }: { facets: Facets }) {
       {/* Background: the photograph covers the WHOLE hero, including behind  */}
       {/* the search rail. It is decorative beside the copy, so alt="".       */}
       {/*                                                                     */}
-      {/* The scrim is not a guess. The image is high dynamic range (p99      */}
-      {/* luminance 0.84, blown highlights at 1.0), so the opacity was solved  */}
-      {/* against its brightest possible pixel: at brand-900/78, white text   */}
-      {/* measures 8.4:1 and white/80 body copy 6.1:1 over a blown highlight. */}
-      {/* 0.74 is the floor where white/80 still clears 4.5 — do not lower it. */}
+      {/* The scrim is not a guess. It is solved against the brightest pixel  */}
+      {/* in the half of the frame the copy sits on, which is a blown white   */}
+      {/* highlight. At brand-900/72 the headline measures 6.8:1 and white/80 */}
+      {/* body copy 5.1:1 over that worst case; 0.70 is the floor where       */}
+      {/* white/80 still clears 4.5, so do not lower it. Re-solve this if the */}
+      {/* photograph is ever swapped — a brighter image needs a heavier wash. */}
       {/* bg-brand-900 stays underneath, so a failed image load degrades to   */}
       {/* the flat navy design rather than unreadable text.                   */}
       {/* ------------------------------------------------------------------ */}
@@ -43,9 +45,9 @@ export function Hero({ facets }: { facets: Facets }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="ken-burns object-cover object-center"
         />
-        <div className="absolute inset-0 bg-brand-900/78" />
+        <div className="absolute inset-0 bg-brand-900/72" />
         {/* Extra weight on the left, where the headline sits. */}
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950/70 via-brand-950/25 to-transparent" />
       </div>
@@ -55,32 +57,32 @@ export function Hero({ facets }: { facets: Facets }) {
           {/* -------------------------------------------------------------- */}
           {/* Left: the statement, directly on the photograph                 */}
           {/* -------------------------------------------------------------- */}
-          <div>
-            <Capsule inverse className="w-fit animate-fade-in">
-              Hospitality placement &middot; Gulf &amp; Europe
+          <div className="stagger">
+            <Capsule inverse className="w-fit">
+              Hotel jobs abroad &middot; Gulf &amp; Europe
             </Capsule>
 
-            <h1 className="mt-7 animate-fade-up font-display text-[2.625rem] font-bold leading-[1.02] text-white text-balance-tight sm:text-5xl lg:text-[3.75rem]">
-              Your skills.
+            <h1 className="mt-7 font-display text-[2.625rem] font-bold leading-[1.02] text-white text-balance-tight sm:text-5xl lg:text-[3.75rem]">
+              Hotel jobs abroad.
               <br />
-              Our network.
+              You pay nothing.
               <br />
-              <span className="text-brand-200">No borders.</span>
+              <span className="text-brand-200">We help at every step.</span>
             </h1>
 
-            <p className="mt-6 max-w-lg animate-fade-up text-base leading-relaxed text-white/80">
-              Kitchen, F&amp;B, front office and housekeeping roles with hotels and catering
-              groups across six countries. Screened by a team that has been placing
-              hospitality professionals from Kochi for years.
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-white/80">
+              Work in kitchens, restaurants, hotel front desks and housekeeping &mdash;
+              in Kuwait, Oman, Qatar, Bahrain, Germany and the Netherlands. We check
+              every job before we list it. We stay with you until the day you start.
             </p>
 
-            <div className="mt-8 flex animate-fade-up flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href={jobsUrl("/jobs")} className={buttonClass("white", "lg")}>
-                Browse {totalOpenings} open roles
+                See all {totalOpenings} jobs
                 <ArrowRight />
               </Link>
               <Link href={jobsUrl("/register")} className={buttonClass("inverse", "lg")}>
-                Create your profile
+                Create your free profile
                 <ArrowUpRight />
               </Link>
             </div>
@@ -91,10 +93,13 @@ export function Hero({ facets }: { facets: Facets }) {
           {/* White/70 measures only 4.3:1 on this glass, so nothing inside   */}
           {/* drops below white/85.                                          */}
           {/* -------------------------------------------------------------- */}
-          <div className="border border-white/15 bg-white/8 p-6 backdrop-blur-md sm:p-7">
+          <div
+            className="rise border border-white/15 bg-white/8 p-6 backdrop-blur-md sm:p-7"
+            style={{ animationDelay: "0.35s" }}
+          >
             <div className="flex items-baseline justify-between gap-4">
               <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
-                Six countries. One standard of hiring.
+                Jobs open right now
               </h2>
             </div>
 
@@ -133,17 +138,17 @@ export function Hero({ facets }: { facets: Facets }) {
 
             <div className="mt-6 flex items-end justify-between gap-4">
               <div>
-                <p className="font-display text-4xl font-bold text-white sm:text-5xl">
-                  {totalOpenings}
+                <p className="font-display text-4xl font-bold tabular-nums text-white sm:text-5xl">
+                  <CountUp value={String(totalOpenings)} />
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/85">
-                  Roles open now
+                  Jobs open now
                 </p>
               </div>
               {facets.urgent > 0 ? (
                 <p className="inline-flex items-center gap-1.5 border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white">
                   <TrendingUp className="size-3.5" />
-                  {facets.urgent} hiring urgently
+                  <CountUp value={String(facets.urgent)} /> need people now
                 </p>
               ) : null}
             </div>

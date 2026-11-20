@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getFacets, fetchAllJobs } from "@/lib/api";
 import { Hero } from "@/components/home/hero";
+import { HowToApply } from "@/components/home/how-to-apply";
+import { Reveal } from "@/components/ui/reveal";
 import {
   StatsBar,
   AboutPreview,
@@ -37,13 +39,25 @@ export default async function HomePage() {
 
       <StatsBar facets={facets} />
 
-      <AboutPreview />
+      {/* Candidates first: the page used to explain the business to employers
+          and never tell a job seeker what to actually do. */}
+      <HowToApply />
 
-      <ServicesPreview />
+      <Reveal>
+        <AboutPreview />
+      </Reveal>
 
-      <TalentSection />
+      <Reveal>
+        <ServicesPreview />
+      </Reveal>
 
-      <FaqPreview />
+      <Reveal>
+        <TalentSection />
+      </Reveal>
+
+      <Reveal>
+        <FaqPreview />
+      </Reveal>
     </>
   );
 }

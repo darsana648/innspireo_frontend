@@ -178,27 +178,175 @@ function AccountMenu({ overlay }: { overlay: boolean }) {
   );
 }
 
+/**
+ * A desktop nav item with a submenu.
+ *
+ * Opens on hover and on click, and closes on pointer-down outside, Escape,
+ * mouse-leave, choosing a link, or navigating. The version this replaces was
+ * pure CSS — `group-hover` plus `group-focus-within` — which looked fine until
+ * someone clicked: focus stayed inside the panel, so it stayed open and sat on
+ * top of whichever page they had just navigated to. It also never closed at
+ * all on a touch device, where there is no hover to leave.
+ *
+ * Only one submenu can be open, so `openLabel` is held by the Header.
+ */
+function NavDropdown({
+  item,
+  overlay,
+  active,
+  openLabel,
+  setOpenLabel,
+  children,
+}: {
+  item: NavItem;
+  overlay: boolean;
+  active: boolean;
+  openLabel: string | null;
+  setOpenLabel: (label: string | null) => void;
+  children: React.ReactNode;
+}) {
+  const isOpen = openLabel === item.label;
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+  const closeTimer = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!wrapRef.current?.contains(event.target as Node)) setOpenLabel(null);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenLabel(null);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen, setOpenLabel]);
+
+  React.useEffect(() => () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+  }, []);
+
+  // A short grace period on leaving, so the pointer can cross the gap between
+  // the trigger and the panel without the menu snapping shut.
+  const scheduleClose = () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setOpenLabel(null), 140);
+  };
+  const cancelClose = () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      className="relative"
+      onMouseEnter={() => {
+        cancelClose();
+        setOpenLabel(item.label);
+      }}
+      onMouseLeave={scheduleClose}
+    >
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        onClick={() => setOpenLabel(isOpen ? null : item.label)}
+        className={cn(
+          "flex items-center gap-1 rounded-none px-3.5 py-2 text-sm font-medium transition-colors",
+          overlay
+            ? active || isOpen
+              ? "bg-white/15 text-white"
+              : "text-white/85 hover:bg-white/10 hover:text-white"
+            : active || isOpen
+              ? "bg-ink-50 text-content"
+              : "text-content-muted hover:bg-ink-50 hover:text-content",
+        )}
+      >
+        {item.label}
+        <ChevronDown
+          aria-hidden
+          className={cn(
+            "size-3.5 transition-transform duration-200",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+
+      <div
+        className={cn(
+          "absolute left-0 top-full w-64 pt-3 transition-all duration-200 ease-out",
+          isOpen
+            ? "visible translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-1 opacity-0",
+        )}
+        onMouseEnter={cancelClose}
+        onMouseLeave={scheduleClose}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const { user, status, isVerified, signOut } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [expanded, setExpanded] = React.useState<string | null>(null);
+  const [openMenu, setOpenMenu] = React.useState<string | null>(null);
 
+  const sentinelRef = React.useRef<HTMLDivElement>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const closeRef = React.useRef<HTMLButtonElement>(null);
   const restoreFocus = React.useRef(false);
 
+  /**
+   * Is the page still at the top?
+   *
+   * Driven by an IntersectionObserver watching a sentinel pinned to the very
+   * top of the document, not by a `window.scrollY > 8` check. Two reasons:
+   *
+   *   - 8px is close enough to zero that scroll restoration, a trackpad
+   *     nudge or mobile rubber-banding flips the bar to white while the
+   *     visitor is still looking at the top of the hero;
+   *   - an observer recomputes on scroll, resize and layout change, so the
+   *     state cannot get stuck the way a one-off listener can.
+   *
+   * The sentinel is 96px tall and absolutely positioned inside a zero-height
+   * wrapper, so it occupies no space and shifts nothing.
+   */
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const node = sentinelRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      // No observer: fall back to a plain scroll check rather than leaving
+      // the bar stuck transparent over white content further down the page.
+      const onScroll = () => setScrolled(window.scrollY > 64);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   React.useEffect(() => {
     setOpen(false);
+    // The desktop dropdown has to close on navigation too. The previous
+    // CSS-only version used :focus-within, which kept it open after a click
+    // because focus stayed inside the panel — so it hung over the next page.
+    setOpenMenu(null);
   }, [pathname]);
 
   React.useEffect(() => {
@@ -278,6 +426,12 @@ export function Header() {
         Skip to content
       </a>
 
+      {/* Top-of-page sentinel for the header's transparent state. Zero-height
+          wrapper + absolutely positioned child = no layout impact. */}
+      <div aria-hidden className="relative h-0">
+        <div ref={sentinelRef} className="pointer-events-none absolute inset-x-0 top-0 h-24" />
+      </div>
+
       <header className="sticky top-0 z-50 pt-3 sm:pt-4">
         <div className="container-page">
           <div
@@ -298,34 +452,20 @@ export function Header() {
             <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex">
               {NAV.map((item) =>
                 item.children ? (
-                  <div key={item.label} className="group relative">
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-1 rounded-none px-3.5 py-2 text-sm font-medium transition-colors",
-                        overlay
-                          ? isActive(item.href)
-                            ? "bg-white/15 text-white"
-                            : "text-white/85 hover:bg-white/10 hover:text-white"
-                          : isActive(item.href)
-                            ? "bg-ink-50 text-content"
-                            : "text-content-muted hover:bg-ink-50 hover:text-content",
-                      )}
-                    >
-                      {item.label}
-                      <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
-                    </Link>
-                    <div
-                      className={cn(
-                        "invisible absolute left-0 top-full w-64 pt-3 opacity-0 transition-all duration-200",
-                        "group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100",
-                      )}
-                    >
-                      <div className="overflow-hidden rounded-none border border-line bg-surface p-2 shadow-lift">
+                  <NavDropdown
+                    key={item.label}
+                    item={item}
+                    overlay={overlay}
+                    active={isActive(item.href)}
+                    openLabel={openMenu}
+                    setOpenLabel={setOpenMenu}
+                  >
+                    <div className="overflow-hidden rounded-none border border-line bg-surface p-2 shadow-lift">
                         {item.children.map((child) => (
                           <Link
                             key={child.href}
                             href={child.href}
+                            onClick={() => setOpenMenu(null)}
                             className="flex flex-col gap-0.5 rounded-none px-3 py-2.5 transition-colors hover:bg-ink-50"
                           >
                             <span className="text-sm font-medium text-content">
@@ -339,14 +479,18 @@ export function Header() {
                           </Link>
                         ))}
                       </div>
-                    </div>
-                  </div>
+                  </NavDropdown>
                 ) : (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "rounded-none px-3.5 py-2 text-sm font-medium transition-colors",
+                      "relative rounded-none px-3.5 py-2 text-sm font-medium transition-colors",
+                      // Underline drawn from the left on hover.
+                      "after:absolute after:bottom-1 after:left-3.5 after:right-3.5 after:h-px",
+                      "after:origin-left after:scale-x-0 after:bg-current",
+                      "after:transition-transform after:duration-300 after:ease-out",
+                      "hover:after:scale-x-100",
                       overlay
                         ? isActive(item.href)
                           ? "bg-white/15 text-white"

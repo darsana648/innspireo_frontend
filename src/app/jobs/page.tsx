@@ -11,6 +11,7 @@ import { buttonClass } from "@/components/ui/button";
 import { DegradedBanner } from "@/components/home/sections";
 import { CATEGORIES, DESTINATIONS } from "@/lib/constants";
 import type { JobQuery, SortOption } from "@/lib/types";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Browse Hospitality Jobs",
@@ -138,8 +139,12 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
             ) : (
               <>
                 <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {jobs.map((job) => (
-                    <JobCard key={job.id} job={job} />
+                  {jobs.map((job, i) => (
+                    // Stagger capped at 6 so page 3 of the results does not
+                    // take two seconds to finish appearing.
+                    <Reveal key={job.id} delay={Math.min(i, 5) * 60}>
+                      <JobCard job={job} />
+                    </Reveal>
                   ))}
                 </div>
 
