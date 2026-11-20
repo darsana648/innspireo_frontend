@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but the documented template belongs in the repo, or a new clone has no
+# record of which variables exist.
+!.env.example
 
 # vercel
 .vercel

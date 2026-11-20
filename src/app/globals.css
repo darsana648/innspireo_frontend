@@ -1,26 +1,230 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   INNSPIREO DESIGN SYSTEM
+   White and navy blue. DM Sans. Square corners throughout — every radius
+   token resolves to 0, so the geometry is defined by rules and spacing
+   rather than rounding.
+
+   SINGLE THEME. There is no dark mode: no `dark:` variant is registered, so
+   writing `dark:*` in a component silently does nothing. `color-scheme: light`
+   below also pins form controls, scrollbars and autofill to the light palette
+   on machines whose OS preference is dark.
+   ========================================================================== */
+
+@theme {
+  /* --- Brand: navy blue -------------------------------------------------
+     brand-600 is the fill for primary controls, brand-700 for links,
+     brand-900 for headings and dark panels. */
+  --color-brand-50: #f2f5fa;
+  --color-brand-100: #e2e9f4;
+  --color-brand-200: #c2d0e6;
+  --color-brand-300: #93aacf;
+  --color-brand-400: #5e7cae;
+  --color-brand-500: #355c9c;
+  --color-brand-600: #2a4a80;
+  --color-brand-700: #213a66;
+  --color-brand-800: #1a2e50;
+  --color-brand-900: #0f1c33;
+  --color-brand-950: #091221;
+
+  /* --- Ink: cool navy-grey neutrals ------------------------------------ */
+  --color-ink-50: #f6f8fb;
+  --color-ink-100: #edf1f6;
+  --color-ink-200: #dde3ec;
+  --color-ink-300: #c2cbd9;
+  --color-ink-400: #96a1b5;
+  --color-ink-500: #656e7f;
+  --color-ink-600: #4e5868;
+  --color-ink-700: #39414e;
+  --color-ink-800: #1d2635;
+  --color-ink-900: #0f1c33;
+  --color-ink-950: #091221;
+
+  /* --- Type ------------------------------------------------------------ */
+  --font-display: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Radii: square. Every alias resolves to 0 so a stray
+         rounded-card / rounded-pill cannot reintroduce rounding. ---------- */
+  --radius-field: 0px;
+  --radius-card: 0px;
+  --radius-panel: 0px;
+  --radius-pill: 0px;
+
+  /* --- Elevation: restrained, cool-tinted ------------------------------ */
+  --shadow-soft: 0 1px 2px 0 rgb(15 28 51 / 0.05);
+  --shadow-card: 0 1px 2px 0 rgb(15 28 51 / 0.05), 0 8px 20px -8px rgb(15 28 51 / 0.1);
+  --shadow-lift: 0 2px 4px -1px rgb(15 28 51 / 0.07), 0 18px 36px -12px rgb(15 28 51 / 0.16);
+  --shadow-panel: 0 20px 48px -24px rgb(15 28 51 / 0.3);
+
+  /* --- Motion ---------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-up: fade-up 0.6s var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 0.5s var(--ease-out-soft) both;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Semantic surface tokens — one light set, no theme switching.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --page: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f6f8fb;
+  --surface-raised: #ffffff;
+  --content: #0f1c33;
+  --content-muted: #4e5868;
+  --content-subtle: #656e7f;
+  --line: #dde3ec;
+  --line-strong: #c2cbd9;
+  --ring: #2a4a80;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+  --color-content: var(--content);
+  --color-content-muted: var(--content-muted);
+  --color-content-subtle: var(--content-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ring: var(--ring);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--page);
+    color: var(--content);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    line-height: 1.1;
+  }
+
+  h4,
+  h5 {
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Square focus ring, consistent with the rest of the geometry. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 0;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-900);
+    color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+/* Wide page, narrow gutters — content runs closer to the viewport edges.
+   1rem is the floor: it is the phone-width side gutter and must not go lower. */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 108rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Deep navy contrast panel for hero media, CTA bands and the auth screen. */
+@utility bg-navy-panel {
+  background-color: var(--color-brand-900);
+  background-image: linear-gradient(160deg, #16294a 0%, #0f1c33 55%, #091221 100%);
+}
+
+@utility text-balance-tight {
+  text-wrap: balance;
+  letter-spacing: -0.035em;
+}
+
+@utility line-clamp-fade {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
