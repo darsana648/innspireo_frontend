@@ -76,7 +76,7 @@ export function EmployerProfile({ job }: { job: Job }) {
         ) : null}
 
         {(employer.propertyType || employer.scale || employer.locations?.length || employer.founded) ? (
-          <dl className="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+          <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
             {employer.propertyType ? (
               <Fact icon={<Building2 />} label="Type" value={employer.propertyType} />
             ) : null}
@@ -97,7 +97,7 @@ export function EmployerProfile({ job }: { job: Job }) {
         ) : null}
 
         {employer.highlights?.length ? (
-          <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+          <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {employer.highlights.map((item) => (
               <li key={item} className="flex items-start gap-2.5 text-sm text-content-muted">
                 <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-600" />
@@ -142,7 +142,7 @@ export function EmployerProfile({ job }: { job: Job }) {
             you apply.
           </p>
 
-          <dl className="mt-5 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+          <dl className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
             {facts.propertyType ? (
               <Fact icon={<Building2 />} label="Type of business" value={facts.propertyType} />
             ) : null}

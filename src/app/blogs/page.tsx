@@ -35,7 +35,7 @@ export default function BlogsPage() {
       <Section>
         <SectionHeading eyebrow="Latest" title="Recent articles" />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {BLOG_POSTS.map((post, i) => (
             <Reveal key={post.slug} delay={i * 70}>
               <Card interactive className="group relative flex h-full flex-col p-6">

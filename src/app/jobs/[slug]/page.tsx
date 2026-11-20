@@ -394,14 +394,14 @@ export default async function JobDetailPage({
 
       {/* Body */}
       <div className="container-page py-10 sm:py-14">
-        <div className="grid gap-10 lg:grid-cols-[1fr_20rem] lg:gap-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_20rem] lg:gap-12">
           <article className="min-w-0">
             {/* Package grid, lifted out of the description's "Label: Value"
                 lines. Renders only when the recruiter wrote them that way. */}
             {packageFacts.length > 0 ? (
               <section className="mb-12">
                 <h2 className="text-2xl text-content">Package at a glance</h2>
-                <dl className="mt-5 grid gap-px border border-line bg-line sm:grid-cols-2">
+                <dl className="mt-5 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2">
                   {packageFacts.map((fact) => (
                     <div key={`${fact.label}-${fact.value}`} className="bg-surface px-5 py-4">
                       <dt className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-content-subtle">
@@ -637,7 +637,7 @@ export default async function JobDetailPage({
             <p className="mt-2 text-sm text-content-muted">
               Roles in the same department or destination.
             </p>
-            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               {related.map((r) => (
                 <JobCard key={r.id} job={r} compact />
               ))}

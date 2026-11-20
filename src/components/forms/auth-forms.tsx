@@ -91,7 +91,7 @@ function PasswordInput({
         type="button"
         onClick={() => setShown((v) => !v)}
         aria-label={shown ? "Hide password" : "Show password"}
-        className="absolute right-1.5 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-none text-content-subtle transition-colors hover:text-content"
+        className="absolute right-0.5 top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-none text-content-subtle transition-colors hover:text-content"
       >
         {shown ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
       </button>
@@ -182,7 +182,7 @@ export function LoginForm() {
           <span className="text-sm font-medium text-content">Password</span>
           <Link
             href="/forgot-password"
-            className="text-xs font-medium text-brand-600 hover:underline"
+            className="-my-1.5 inline-flex min-h-11 items-center py-1.5 text-xs font-medium text-brand-600 hover:underline"
           >
             Forgot password?
           </Link>

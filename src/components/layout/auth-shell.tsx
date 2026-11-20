@@ -33,13 +33,13 @@ export function AuthShell({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-[calc(100vh-4rem)] lg:grid-cols-2">
+    <div className="grid grid-cols-1 min-h-[calc(100vh-4rem)] lg:grid-cols-2">
       {/* Form side */}
       <div className="flex items-center justify-center px-4 py-12 sm:px-8 lg:px-12">
         <div className="w-full max-w-md">
           <Link
             href="/jobs"
-            className="inline-flex items-center gap-1.5 text-sm text-content-muted transition-colors hover:text-content"
+            className="-my-1.5 inline-flex min-h-11 items-center gap-1.5 py-1.5 text-sm text-content-muted transition-colors hover:text-content"
           >
             <ArrowLeft className="size-4" />
             Back to jobs

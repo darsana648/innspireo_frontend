@@ -73,7 +73,7 @@ export function StatsBar({ facets }: { facets: Facets }) {
 export function AboutPreview() {
   return (
     <Section>
-      <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <SectionHeading eyebrow="About Innspireo" title="More than consultants" />
         <div className="space-y-4 text-base leading-relaxed text-content-muted">
           <p>{COMPANY.intro}</p>
@@ -88,7 +88,7 @@ export function AboutPreview() {
           </p>
           <Link
             href="/about"
-            className="inline-flex items-center gap-1.5 pt-1 text-sm font-semibold text-brand-600 hover:underline"
+            className="-mb-1.5 inline-flex min-h-11 items-center gap-1.5 pb-1.5 pt-1 text-sm font-semibold text-brand-600 hover:underline"
           >
             Read our story
             <ArrowRight className="size-4" />
@@ -130,7 +130,7 @@ export function ServicesPreview() {
         }
       />
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {SERVICES.map((service) => (
           <Link
             key={service.slug}
@@ -173,7 +173,7 @@ export function TalentSection() {
   return (
     <section className="bg-navy-panel">
       <div className="container-page py-14 sm:py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-200">
               <span aria-hidden className="size-1.5 bg-brand-200" />
@@ -240,7 +240,7 @@ export function FaqPreview() {
 
   return (
     <Section tone="muted">
-      <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading eyebrow="FAQ" title="Know more about Innspireo" />
           <p className="mt-5 text-base leading-relaxed text-content-muted">
@@ -280,14 +280,14 @@ export function FaqPreview() {
             <div className="mt-5 space-y-2.5 border-t border-line pt-4 text-sm">
               <a
                 href={`mailto:${SITE.email}`}
-                className="flex items-center gap-2.5 font-medium text-brand-600 hover:underline"
+                className="-my-1.5 flex min-h-11 items-center gap-2.5 py-1.5 font-medium text-brand-600 hover:underline"
               >
                 <Mail className="size-4 shrink-0" />
                 <span className="break-all">{SITE.email}</span>
               </a>
               <a
                 href={`tel:${SITE.phoneHref}`}
-                className="flex items-center gap-2.5 font-medium text-brand-600 hover:underline"
+                className="-my-1.5 flex min-h-11 items-center gap-2.5 py-1.5 font-medium text-brand-600 hover:underline"
               >
                 <Phone className="size-4 shrink-0" />
                 {SITE.phone}

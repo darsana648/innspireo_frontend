@@ -41,7 +41,10 @@ export function JobCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-none border border-line bg-surface p-6 shadow-soft",
+        "group relative flex h-full flex-col rounded-none border border-line bg-surface shadow-soft",
+        // p-5 below 640px: at 320px the old p-6 left only 272px of content and
+        // the header row could not fit, which pushed the page sideways.
+        "p-5 sm:p-6",
         "transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift",
         "",
         className,
@@ -55,7 +58,10 @@ export function JobCard({
               {job.category.name}
             </p>
           ) : null}
-          <h3 className="mt-2.5 text-lg leading-snug text-content">
+          {/* overflow-wrap:anywhere, not break-words: only `anywhere` lowers
+              the element's intrinsic min-content width, which is what decides
+              how narrow the card is allowed to get. */}
+          <h3 className="mt-2.5 [overflow-wrap:anywhere] text-lg leading-snug text-content">
             <Link
               href={`/jobs/${job.slug}`}
               className="transition-colors group-hover:text-brand-600"
@@ -67,14 +73,16 @@ export function JobCard({
         </div>
 
         {closed ? (
-          <Badge tone="outline">Closed</Badge>
+          <Badge tone="outline" className="shrink-0">
+            Closed
+          </Badge>
         ) : job.is_featured ? (
-          <Badge tone="brand">
+          <Badge tone="brand" className="shrink-0">
             <Star className="fill-current" />
             Featured
           </Badge>
         ) : job.is_urgent ? (
-          <Badge tone="urgent">
+          <Badge tone="urgent" className="shrink-0">
             <Flame />
             Urgent
           </Badge>

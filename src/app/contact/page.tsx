@@ -54,7 +54,7 @@ export default function ContactPage() {
       </section>
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[1fr_22rem]">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_22rem]">
           <div className="min-w-0">
             <SectionHeading
               eyebrow="Send a message"
@@ -79,7 +79,7 @@ export default function ContactPage() {
                       href={c.href}
                       target={c.href.startsWith("http") ? "_blank" : undefined}
                       rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="mt-0.5 block break-all text-sm font-semibold text-brand-600 hover:underline"
+                      className="mt-0.5 inline-flex min-h-11 items-center break-all py-1.5 text-sm font-semibold text-brand-600 hover:underline"
                     >
                       {c.value}
                     </a>

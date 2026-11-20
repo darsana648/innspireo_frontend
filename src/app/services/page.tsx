@@ -66,7 +66,7 @@ export default function ServicesPage() {
           description="Nine service lines covering the full life of a hospitality property — from the first feasibility study to the team that runs it."
         />
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, i) => (
             <Reveal
               as="article"
@@ -110,7 +110,7 @@ export default function ServicesPage() {
       {/* Partner with Innspireo */}
       <section className="bg-navy-panel">
         <div className="container-page py-14 sm:py-16 lg:py-20">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-200">
                 <span aria-hidden className="size-1.5 bg-brand-200" />
@@ -150,7 +150,7 @@ export default function ServicesPage() {
           align="center"
         />
 
-        <div className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {WHY_CHOOSE.map((reason, i) => (
             <div key={reason.title} className="bg-surface p-6">
               <span className="font-display text-2xl font-bold text-ink-200">

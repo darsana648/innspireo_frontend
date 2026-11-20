@@ -784,14 +784,14 @@ export function Header() {
             <div className="mt-5 flex flex-col gap-2 border-t border-line pt-4">
               <a
                 href={`tel:${SITE.phoneHref}`}
-                className="flex items-center gap-2.5 text-sm text-content-muted transition-colors hover:text-brand-700"
+                className="-my-1.5 flex min-h-11 items-center gap-2.5 py-1.5 text-sm text-content-muted transition-colors hover:text-brand-700"
               >
                 <Phone aria-hidden className="size-4 shrink-0 text-content-subtle" />
                 {SITE.phone}
               </a>
               <a
                 href={`mailto:${SITE.email}`}
-                className="flex items-center gap-2.5 break-all text-sm text-content-muted transition-colors hover:text-brand-700"
+                className="-my-1.5 flex min-h-11 items-center gap-2.5 break-all py-1.5 text-sm text-content-muted transition-colors hover:text-brand-700"
               >
                 <Mail aria-hidden className="size-4 shrink-0 text-content-subtle" />
                 {SITE.email}

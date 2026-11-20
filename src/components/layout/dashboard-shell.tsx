@@ -41,8 +41,12 @@ export function DashboardShell({
       </section>
 
       <div className="container-page py-8 sm:py-10">
-        <div className="grid gap-8 lg:grid-cols-[15rem_1fr] lg:gap-10">
-          <aside>
+        {/* grid-cols-1 and minmax(0,...) on both sides. A bare `grid` leaves its
+            implicit column at `auto`, so the horizontally-scrolling side nav's
+            min-content width (457px) became the page width and every dashboard
+            screen scrolled sideways on a phone. */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10">
+          <aside className="min-w-0">
             <nav aria-label="Candidate area" className="lg:sticky lg:top-24">
               <ul className="no-scrollbar flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-1 lg:overflow-visible lg:pb-0">
                 {NAV.map((item) => {

@@ -308,7 +308,7 @@ export function JobFilters({ facets }: { facets: Facets }) {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close filters"
-              className="grid size-9 place-items-center rounded-none text-content-muted hover:bg-surface-muted"
+              className="grid size-11 place-items-center rounded-none text-content-muted hover:bg-surface-muted"
             >
               <X className="size-5" />
             </button>

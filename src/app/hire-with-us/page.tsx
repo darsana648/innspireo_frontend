@@ -60,7 +60,7 @@ export default async function HireWithUsPage() {
           className="pointer-events-none absolute -right-32 -top-32 size-[32rem] rounded-none bg-white/5 blur-3xl"
         />
         <div className="container-page relative py-14 sm:py-20">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <div>
               <Capsule inverse className="w-fit">
                 For employers
@@ -137,7 +137,7 @@ export default async function HireWithUsPage() {
           description="We are a managed service. Every candidate you see has been screened by our team against your brief."
           align="center"
         />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2">
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {SERVICES.map((s) => (
             <Card key={s.title} className="flex gap-4 p-6">
               <span className="grid size-11 shrink-0 place-items-center rounded-none bg-brand-50 text-brand-600 [&_svg]:size-5">
@@ -169,7 +169,7 @@ export default async function HireWithUsPage() {
           ))}
         </ul>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {DESTINATIONS.map((d) => (
             <div
               key={d.slug}
@@ -187,7 +187,7 @@ export default async function HireWithUsPage() {
 
       {/* The brief form */}
       <Section id="brief">
-        <div className="grid gap-12 lg:grid-cols-[1fr_22rem]">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_22rem]">
           <div className="min-w-0">
             <SectionHeading
               eyebrow="Start here"
@@ -209,13 +209,13 @@ export default async function HireWithUsPage() {
               <div className="mt-5 space-y-3 text-sm">
                 <a
                   href={`tel:${SITE.phoneHref}`}
-                  className="block font-medium text-brand-600 hover:underline"
+                  className="-my-1.5 inline-flex min-h-11 items-center py-1.5 font-medium text-brand-600 hover:underline"
                 >
                   {SITE.phone}
                 </a>
                 <a
                   href={`mailto:${SITE.email}`}
-                  className="block break-all font-medium text-brand-600 hover:underline"
+                  className="-my-1.5 inline-flex min-h-11 items-center break-all py-1.5 font-medium text-brand-600 hover:underline"
                 >
                   {SITE.email}
                 </a>

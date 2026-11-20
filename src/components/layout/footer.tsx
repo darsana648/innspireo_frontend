@@ -29,7 +29,7 @@ export function Footer() {
   return (
     <footer className="border-t border-line bg-surface-muted">
       <div className="container-page py-14 sm:py-16">
-        <div className="grid gap-12 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           {/* Brand + contact */}
           <div className="lg:col-span-4">
             <Link href="/" aria-label="Innspireo Careers — home">
@@ -44,7 +44,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${SITE.email}`}
-                  className="group flex items-start gap-3 text-content-muted transition-colors hover:text-brand-600"
+                  className="group -my-1.5 flex min-h-11 items-start gap-3 py-1.5 text-content-muted transition-colors hover:text-brand-600"
                 >
                   <Mail className="mt-0.5 size-4 shrink-0 text-brand-600" />
                   <span className="break-all">{SITE.email}</span>
@@ -53,7 +53,7 @@ export function Footer() {
               <li>
                 <a
                   href={`tel:${SITE.phoneHref}`}
-                  className="group flex items-start gap-3 text-content-muted transition-colors hover:text-brand-600"
+                  className="group -my-1.5 flex min-h-11 items-start gap-3 py-1.5 text-content-muted transition-colors hover:text-brand-600"
                 >
                   <Phone className="mt-0.5 size-4 shrink-0 text-brand-600" />
                   <span>{SITE.phone}</span>
@@ -71,7 +71,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Innspireo on LinkedIn"
-                className="grid size-9 place-items-center rounded-none border border-line bg-surface text-content-muted transition-colors hover:border-brand-700 hover:text-brand-600"
+                className="grid size-11 place-items-center rounded-none border border-line bg-surface text-content-muted transition-colors hover:border-brand-700 hover:text-brand-600"
               >
                 <Linkedin className="size-4" />
               </a>
@@ -80,7 +80,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Innspireo on Facebook"
-                className="grid size-9 place-items-center rounded-none border border-line bg-surface text-content-muted transition-colors hover:border-brand-700 hover:text-brand-600"
+                className="grid size-11 place-items-center rounded-none border border-line bg-surface text-content-muted transition-colors hover:border-brand-700 hover:text-brand-600"
               >
                 <Facebook className="size-4" />
               </a>
@@ -88,7 +88,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 lg:col-span-8">
             <FooterColumn title="For candidates" links={candidateLinks} />
             <FooterColumn title="Company" links={companyLinks} />
 
@@ -99,7 +99,7 @@ export function Footer() {
                   <li key={service.slug}>
                     <Link
                       href="/services"
-                      className="text-sm text-content-muted transition-colors hover:text-brand-600"
+                      className="-my-1.5 inline-flex min-h-11 items-center py-1.5 text-sm text-content-muted transition-colors hover:text-brand-600"
                     >
                       {service.title}
                     </Link>
@@ -120,7 +120,7 @@ export function Footer() {
               <li key={c.id}>
                 <Link
                   href={jobsUrl(`/jobs?category=${c.id}`)}
-                  className="text-sm text-content-muted transition-colors hover:text-brand-600"
+                  className="-my-1.5 inline-flex min-h-11 items-center py-1.5 text-sm text-content-muted transition-colors hover:text-brand-600"
                 >
                   {c.name}
                 </Link>
@@ -137,13 +137,13 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
             <Link
               href="/privacy"
-              className="text-content-subtle transition-colors hover:text-content"
+              className="-my-2 inline-flex min-h-11 items-center py-2 text-content-subtle transition-colors hover:text-content"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="text-content-subtle transition-colors hover:text-content"
+              className="-my-2 inline-flex min-h-11 items-center py-2 text-content-subtle transition-colors hover:text-content"
             >
               Terms
             </Link>
@@ -151,7 +151,7 @@ export function Footer() {
               href={SITE.parentUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-content-subtle transition-colors hover:text-content"
+              className="-my-2 inline-flex min-h-11 items-center gap-1 py-2 text-content-subtle transition-colors hover:text-content"
             >
               innspireo.com
               <ArrowUpRight className="size-3" />
@@ -186,7 +186,7 @@ function FooterColumn({
           <li key={l.href}>
             <Link
               href={l.href}
-              className="text-sm text-content-muted transition-colors hover:text-brand-600"
+              className="-my-1.5 inline-flex min-h-11 items-center py-1.5 text-sm text-content-muted transition-colors hover:text-brand-600"
             >
               {l.label}
             </Link>

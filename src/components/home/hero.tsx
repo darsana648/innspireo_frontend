@@ -53,7 +53,7 @@ export function Hero({ facets }: { facets: Facets }) {
       </div>
 
       <div className="container-page py-14 sm:py-20 lg:py-24">
-        <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           {/* -------------------------------------------------------------- */}
           {/* Left: the statement, directly on the photograph                 */}
           {/* -------------------------------------------------------------- */}
@@ -225,7 +225,7 @@ export function Hero({ facets }: { facets: Facets }) {
               <Link
                 key={term}
                 href={jobsUrl(`/jobs?keyword=${encodeURIComponent(term)}`)}
-                className="border border-line bg-surface-muted px-3 py-1.5 text-xs font-medium text-content-muted transition-colors hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+                className="inline-flex min-h-10 items-center border border-line bg-surface-muted px-3.5 py-2 text-xs font-medium text-content-muted transition-colors hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
               >
                 {term}
               </Link>

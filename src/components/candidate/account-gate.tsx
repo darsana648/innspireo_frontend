@@ -112,7 +112,7 @@ export function AccountGate({
         <p className="mt-3 text-sm">
           <a
             href={`mailto:${SITE.email}`}
-            className="font-semibold text-amber-900 underline underline-offset-2"
+            className="-my-1.5 inline-flex min-h-11 items-center break-all py-1.5 font-semibold text-amber-900 underline underline-offset-2"
           >
             {SITE.email}
           </a>

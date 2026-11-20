@@ -86,7 +86,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
       </section>
 
       <div className="container-page py-8 sm:py-10">
-        <div className="grid gap-8 lg:grid-cols-[18rem_1fr] lg:gap-10">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[18rem_1fr] lg:gap-10">
           <Suspense fallback={<FiltersFallback />}>
             <JobFilters facets={facets} />
           </Suspense>
@@ -138,7 +138,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
               />
             ) : (
               <>
-                <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                   {jobs.map((job, i) => (
                     // Stagger capped at 6 so page 3 of the results does not
                     // take two seconds to finish appearing.

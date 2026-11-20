@@ -119,7 +119,7 @@ export function VerifyEmailPanel() {
         <p className="mt-3 text-sm leading-relaxed text-content-muted">
           {message} You can now apply to vacancies and save roles to come back to.
         </p>
-        <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
           <Link href="/jobs" className={buttonClass("primary", "lg")}>
             Browse open roles
           </Link>

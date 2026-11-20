@@ -108,7 +108,7 @@ export function DashboardOverview() {
 
         {remaining.length > 0 ? (
           <>
-            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+            <ul className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               {tasks.map((task) => (
                 <li key={task.label} className="flex items-center gap-2.5 text-sm">
                   <span
@@ -137,7 +137,7 @@ export function DashboardOverview() {
       </Card>
 
       {/* Counters */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard
           icon={<FileText />}
           value={applications.length}

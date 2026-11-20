@@ -227,7 +227,7 @@ export function ProfileForm() {
       {/* Personal details */}
       <Card className="p-6">
         <h2 className="text-lg text-content">Personal details</h2>
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
             <Label htmlFor="p-name">Full name</Label>
             <Input
@@ -323,7 +323,7 @@ export function ProfileForm() {
             <FieldHint>Your current or most recent role, in a few words.</FieldHint>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <Label htmlFor="p-level">Experience level</Label>
               <Select
@@ -384,7 +384,7 @@ export function ProfileForm() {
 
         <fieldset>
           <legend className="text-sm font-medium text-content">Departments</legend>
-          <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {CATEGORIES.map((category) => (
               <Checkbox
                 key={category.id}
@@ -401,7 +401,7 @@ export function ProfileForm() {
 
         <fieldset>
           <legend className="text-sm font-medium text-content">Destinations</legend>
-          <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {DESTINATIONS.map((destination) => (
               <Checkbox
                 key={destination.slug}

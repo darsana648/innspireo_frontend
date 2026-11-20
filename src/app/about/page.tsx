@@ -36,7 +36,7 @@ export default async function AboutPage() {
       {/* About */}
       <section className="bg-navy-panel">
         <div className="container-page py-14 sm:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
             <div>
               <Capsule inverse className="w-fit">
                 About us
@@ -111,7 +111,7 @@ export default async function AboutPage() {
 
       {/* Who we are */}
       <Section>
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <SectionHeading eyebrow="Who we are" title="More than consultants" />
           <div className="space-y-4 text-base leading-relaxed text-content-muted">
             <p>{ABOUT_COPY.whoWeAre}</p>
@@ -127,7 +127,7 @@ export default async function AboutPage() {
 
       {/* Key services & reasons */}
       <Section tone="muted">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading eyebrow="What we do" title="Key services & reasons" />
             <p className="mt-5 text-base leading-relaxed text-content-muted">
@@ -139,7 +139,7 @@ export default async function AboutPage() {
             </Link>
           </div>
 
-          <ul className="grid gap-px self-start border border-line bg-line sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-px self-start border border-line bg-line sm:grid-cols-2">
             {KEY_SERVICES.map((service) => (
               <li
                 key={service}
@@ -156,7 +156,7 @@ export default async function AboutPage() {
       {/* Mission */}
       <section className="bg-navy-panel">
         <div className="container-page py-14 sm:py-20">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
               <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-200">
                 <Target className="size-4" />
@@ -181,7 +181,7 @@ export default async function AboutPage() {
 
       {/* Vision */}
       <Section>
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">
               <Compass className="size-4" />
@@ -211,7 +211,7 @@ export default async function AboutPage() {
             column next to a half-empty one. */}
         <div className="mt-10 border border-line bg-surface">
           {TEAM.map((member) => (
-            <article key={member.name} className="grid md:grid-cols-[18rem_1fr] lg:grid-cols-[22rem_1fr]">
+            <article key={member.name} className="grid grid-cols-1 md:grid-cols-[18rem_1fr] lg:grid-cols-[22rem_1fr]">
               {/* Portrait slot. Swap TEAM[].photo for the real headshot — the
                   current file is a branded placeholder, not a likeness. */}
               <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-line bg-brand-900 md:aspect-auto md:border-b-0 md:border-r">
@@ -236,14 +236,14 @@ export default async function AboutPage() {
                 <div className="mt-6 flex flex-wrap gap-x-7 gap-y-2.5 text-sm">
                   <a
                     href={`mailto:${SITE.email}`}
-                    className="inline-flex items-center gap-2 font-medium text-brand-600 hover:underline"
+                    className="-my-1.5 inline-flex min-h-11 items-center gap-2 py-1.5 font-medium text-brand-600 hover:underline"
                   >
                     <Mail className="size-4 shrink-0" />
                     <span className="break-all">{SITE.email}</span>
                   </a>
                   <a
                     href={`tel:${SITE.phoneHref}`}
-                    className="inline-flex items-center gap-2 font-medium text-brand-600 hover:underline"
+                    className="-my-1.5 inline-flex min-h-11 items-center gap-2 py-1.5 font-medium text-brand-600 hover:underline"
                   >
                     <Phone className="size-4 shrink-0" />
                     {SITE.phone}
@@ -256,7 +256,7 @@ export default async function AboutPage() {
 
         {/* How we work, as three principles rather than one paragraph in a
             box that ran out of content halfway down. */}
-        <div className="mt-4 grid gap-px border border-line bg-line md:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-3">
           {[
             {
               icon: <Users />,
