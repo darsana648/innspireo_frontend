@@ -250,7 +250,7 @@ src/
     auth/                   auth provider, verify-email, reset-password
     candidate/              profile form, applications, saved jobs, gate
     ui/                     button, primitives, field, accordion
-    jobs/                   job card, filters, pagination
+    jobs/                   job card, filters, pagination, employer profile
     home/                   hero, sections
     forms/                  auth forms, enquiry form
   lib/
@@ -262,6 +262,7 @@ src/
     format.ts               normalisation (location, salary, dates, prose)
     constants.ts            site config + taxonomies + country aliases
     content.ts              FAQs + blog references
+    employers.ts            employer profiles + what the job text reveals
     utils.ts                cn()
 ```
 
@@ -390,6 +391,64 @@ navy design rather than unreadable text.
 - Per-page canonical URLs, OpenGraph and Twitter metadata.
 - Expired listings are marked `noindex` while staying reachable.
 - Pagination uses real crawlable links with `rel="prev"`/`rel="next"`.
+
+---
+
+## Employer profiles on job pages
+
+`src/lib/employers.ts` + `src/components/jobs/employer-profile.tsx`.
+
+**There is no employer data in the API.** Every vacancy carries
+`company_id: 1`, and that record is *Innspireo itself* — described as "one of
+the leading global hotel brands", which it is not; it is a recruitment LLP.
+Rendering `job.company` as "the employer" would put a false claim on all 27
+listings, so `resolveEmployer()` explicitly refuses to treat the agency's own
+record as a hiring employer.
+
+What the job text *does* say is the employer's **type**: "a reputed Four-Star
+Hotel in Oman". `inferEmployerFacts()` reads that out — property type, star
+rating, market, department, and what the package covers — and the page shows
+those instead of a placeholder. It is conservative: anything unclear is left
+out rather than guessed, so only 2 of the 15 jobs on page 1 state a property
+type and the rest show market and department only.
+
+### Naming an employer
+
+Two steps, no backend required:
+
+```ts
+// src/lib/employers.ts
+export const EMPLOYERS = {
+  "grand-bellevue-doha": {
+    key: "grand-bellevue-doha",
+    name: "Grand Bellevue Doha",
+    tagline: "Five-star city hotel · Doha, Qatar",
+    propertyType: "Five-star city hotel",
+    scale: "320 rooms · 4 F&B outlets",
+    locations: ["Doha, Qatar"],
+    highlights: ["Continental and Arabic fine dining"],
+    about: "A city-centre property serving business and leisure guests…",
+  },
+};
+
+export const JOB_EMPLOYER = {
+  "commi-2-1792736986-80": "grand-bellevue-doha",
+};
+```
+
+The job page switches to the full profile automatically — heading, logo,
+about, facts grid, highlights, website.
+
+**`EmployerProfile` has no email, phone or contact-person field, by design.**
+Candidates are never put in touch with a client directly; every approach runs
+through the Innspireo team. Both modes of the component also carry an explicit
+"please do not contact the employer directly" note, because a *named* employer
+is exactly when someone starts searching for a phone number.
+
+> **Before naming anyone, update the FAQ.** `/faqs` currently answers "Why is
+> the employer's name not shown on the job listing?" with the policy that names
+> are never published on open listings. Naming one contradicts that answer, so
+> `FAQS` in `src/lib/content.ts` has to change at the same time.
 
 ---
 

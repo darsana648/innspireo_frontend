@@ -22,6 +22,8 @@ import { JobCard } from "@/components/jobs/job-card";
 import { Badge, Card, Divider } from "@/components/ui/primitives";
 import { buttonClass } from "@/components/ui/button";
 import { ApplyButton, SaveJobButton } from "@/components/jobs/job-actions";
+import { EmployerProfile } from "@/components/jobs/employer-profile";
+import { resolveEmployer } from "@/lib/employers";
 import { SITE, EXPERIENCE_LEVELS } from "@/lib/constants";
 import {
   formatLocation,
@@ -31,6 +33,8 @@ import {
   daysUntil,
   deadlineLabel,
   toLines,
+  stripEmoji,
+  isContactSolicitation,
   isBulletLine,
   stripBulletMarker,
   resolveDestination,
@@ -195,9 +199,17 @@ export default async function JobDetailPage({
   // Recruiters embed the package as "Label: Value" lines inside the free-text
   // description. Lift them into a grid and keep them out of the prose below.
   const packageFacts = extractPackageFacts(job.description);
-  const descriptionLines = stripPackageFacts(job.description);
-  const responsibilityLines = toLines(job.responsibilities);
-  const benefitLines = toLines(job.benefits);
+  // Listings end with "share your CV at <address>" plus a phone number, which
+  // competes with the Apply button on this very page and routes the candidate
+  // somewhere nothing is tracked. Dropped here; see isContactSolicitation.
+  const dropContacts = (lines: string[]) => lines.filter((l) => !isContactSolicitation(l));
+
+  const descriptionLines = dropContacts(stripPackageFacts(job.description));
+  const responsibilityLines = dropContacts(toLines(job.responsibilities));
+  const benefitLines = dropContacts(toLines(job.benefits));
+
+  // Null until a client agrees to be named — see src/lib/employers.ts.
+  const employer = resolveEmployer(job);
 
   const experienceName =
     job.experience_level?.name ??
@@ -429,6 +441,13 @@ export default async function JobDetailPage({
               </section>
             ) : null}
 
+            {/* Who you would be working for. Shows a full profile once the
+                client agrees to be named; until then, what the job text
+                actually says about them. Never contact details either way. */}
+            <div className="mt-10">
+              <EmployerProfile job={job} />
+            </div>
+
             {/* How applying works — replaces the current site's silent dead end */}
             <section className="mt-12">
               <Card className="overflow-hidden">
@@ -546,26 +565,43 @@ export default async function JobDetailPage({
               </dl>
             </Card>
 
-            {/* Placement note — honest about employer anonymity */}
+            {/* Who is hiring. Names the employer when the client has agreed
+                to be named, and otherwise explains the anonymity honestly. */}
             <Card className="p-5">
               <h2 className="inline-flex items-center gap-2 text-base text-content">
                 <Building2 className="size-4 text-brand-600" />
                 Who is hiring
               </h2>
-              <p className="mt-3 text-sm leading-relaxed text-content-muted">
-                This role is managed by{""}
-                <span className="font-medium text-content">{SITE.legalName}</span> on behalf
-                of a client employer. The employer&apos;s name and the full package are
-                shared with you during shortlisting.
-              </p>
+
+              {employer ? (
+                <>
+                  <p className="mt-3 text-sm font-medium text-content">{employer.name}</p>
+                  {employer.tagline ? (
+                    <p className="mt-0.5 text-sm text-content-muted">{employer.tagline}</p>
+                  ) : null}
+                  <p className="mt-3 text-sm leading-relaxed text-content-muted">
+                    Recruited and mobilised by{" "}
+                    <span className="font-medium text-content">{SITE.legalName}</span>.
+                    Apply here — please do not contact the employer directly.
+                  </p>
+                </>
+              ) : (
+                <p className="mt-3 text-sm leading-relaxed text-content-muted">
+                  This role is managed by{" "}
+                  <span className="font-medium text-content">{SITE.legalName}</span> on behalf
+                  of a client employer. The employer&apos;s name and the full package are
+                  shared with you during shortlisting.
+                </p>
+              )}
+
               <Divider className="my-4" />
-              <Link
-                href="/about"
+              <a
+                href="#employer-heading"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 hover:underline"
               >
-                About Innspireo
+                About the employer
                 <ArrowRight className="size-3.5" />
-              </Link>
+              </a>
             </Card>
 
             {dest ? (
@@ -691,7 +727,7 @@ function JobProse({ lines, className }: { lines: string[]; className?: string })
           </ul>
         ) : (
           <p key={i} className="my-3 text-sm leading-relaxed text-content-muted sm:text-base">
-            {block.items[0]}
+            {stripEmoji(block.items[0])}
           </p>
         ),
       )}

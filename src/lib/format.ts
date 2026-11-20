@@ -246,12 +246,74 @@ export function isBulletLine(line: string): boolean {
   return /^([-*•·]|\p{Extended_Pictographic})/u.test(line);
 }
 
+/**
+ * Emoji, including the invisible pieces that make them up — skin-tone
+ * modifiers, variation selectors and zero-width joiners. Dropping the
+ * pictograph but leaving U+FE0F behind produces a stray glyph in some fonts.
+ */
+const EMOJI =
+  /[\p{Extended_Pictographic}\u{1F3FB}-\u{1F3FF}\u{FE0F}\u{200D}\u{20E3}]/gu;
+
+/**
+ * Remove emoji from job text.
+ *
+ * Listings are written in a CMS where recruiters decorate lines with 📢, 💰,
+ * 🍽️, 🏠 and 📥. They carry no information the following words do not already
+ * state ("💰 Salary: 150 KD"), and multi-coloured glyphs sit badly in a
+ * two-colour design. Stripped at the display layer only — the source text is
+ * untouched, so nothing is lost if the policy changes.
+ */
+export function stripEmoji(value: string): string {
+  return value.replace(EMOJI, "").replace(/\s{2,}/g, " ").trim();
+}
+
+/**
+ * Strips a leading bullet marker, emoji included.
+ *
+ * `isBulletLine` counts a leading emoji as a bullet, so this has to remove the
+ * same thing. While it did not, an emoji-led line rendered as a bullet that
+ * still showed the emoji beside the dot.
+ */
 export function stripBulletMarker(line: string): string {
-  return line.replace(/^[-*•·]\s*/, "").trim();
+  return stripEmoji(line).replace(/^[-*•·]\s*/, "").trim();
+}
+
+/**
+ * True for a line that tells the candidate to email or phone a CV in.
+ *
+ * Several descriptions end with "share your updated CV at: <address>" and a
+ * number. On a page whose whole purpose is the Apply button that is a second,
+ * competing instruction — and an application sent that way never enters the
+ * pipeline, so nobody can track it and the candidate hears nothing back.
+ * Filtered out of the rendered prose; the Apply card and /contact are the
+ * routes that actually work.
+ */
+export function isContactSolicitation(line: string): boolean {
+  const text = stripEmoji(line).trim();
+  if (!text) return false;
+
+  // A line that is nothing but an address or a number.
+  if (/^[\w.+-]+@[\w.-]+\.\w{2,}$/.test(text)) return true;
+  if (/^[+\d][\d\s()+-]{6,}$/.test(text)) return true;
+
+  // The lead-in that introduces them.
+  if (
+    /\b(share|send|forward|mail|drop)\b[^.]{0,40}\b(cv|cvs|resume|résumé|profile)\b/i.test(
+      text,
+    )
+  ) {
+    return true;
+  }
+  if (/^for\s+(enquir|inquir|more\s+detail|further\s+detail)/i.test(text)) return true;
+  if (/^(contact|call|whats\s?app|email)\s*(us|on|at)?\s*:?$/i.test(text)) return true;
+
+  return false;
 }
 
 export function excerpt(value: string | null, max = 165): string {
-  const text = toLines(value).join(" ");
+  // Also covers the page's meta description, where a stray emoji would show
+  // up in search results and link previews.
+  const text = stripEmoji(toLines(value).join(" "));
   if (text.length <= max) return text;
   return `${text.slice(0, max).replace(/\s+\S*$/, "")}…`;
 }
